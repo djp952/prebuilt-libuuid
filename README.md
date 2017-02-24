@@ -47,7 +47,7 @@ make
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
-**BUILD LIBUUID (linux-i686)**   
+**BUILD LIBUUID (linux-x86_64)**   
 Open "Bash on Ubuntu on Windows"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
