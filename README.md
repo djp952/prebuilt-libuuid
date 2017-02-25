@@ -26,6 +26,7 @@ wget https://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip
 7z x android-ndk-r12b-linux-x86_64.zip
 android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl gnustl --install-dir ./arm-linux-androideabi
 android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm64 --api 21 --stl gnustl --install-dir ./aarch64-linux-android
+android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch x86 --api 21 --stl gnustl --install-dir ./i686-linux-android
 ```
   
 **BUILD LIBUUID (linux-i686)**   
@@ -93,6 +94,23 @@ export PATH=$(pwd)/aarch64-linux-android/bin:$PATH
 export CROSS_COMPILE=aarch64-linux-android-
 cd libuuid-1.0.3
 ./configure --with-pic --host=aarch64-linux-android --disable-shared --enable-static
+autoreconf -i -f
+make
+```
+   
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (android-x86)**   
+Open "Bash on Ubuntu on Windows"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
+export PATH=$(pwd)/i686-linux-android/bin:$PATH
+export CROSS_COMPILE=i686-linux-android-
+cd libuuid-1.0.3
+./configure --with-pic --host=i686-linux-android --disable-shared --enable-static
 autoreconf -i -f
 make
 ```
