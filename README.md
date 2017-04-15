@@ -10,6 +10,7 @@
 * android-armeabi-v7a (ndk-r12b/api-21)   
 * android-arm64-v8a (ndk-r12b/api-21)   
 * android-x86 (ndk-r12b/api-21)   
+* rasbpian-armhf (gcc-4.8.3)   
    
 **BUILD ENVIRONMENT**  
 * Windows 10 x64 15063   
