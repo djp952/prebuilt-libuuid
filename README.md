@@ -177,3 +177,23 @@ make
    
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (raspbian-armhf)**   
+Open "Bash on Ubuntu on Windows"   
+```
+git clone https://github.com/raspberrypi/tools.git raspberrypi --depth=1
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export PATH=$(pwd)/raspberrypi/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin:$PATH
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export CC=arm-linux-gnueabihf-gcc
+export AR=arm-linux-gnueabihf-gcc-ar
+export RANLIB=arm-linux-gnueabihf-gcc-ranlib
+cd libuuid-1.0.3
+./configure --with-pic --host=arm-linux-gnueabihf --disable-shared --enable-static
+autoreconf -i -f
+make
+```
+   
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
