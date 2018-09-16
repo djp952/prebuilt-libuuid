@@ -7,9 +7,11 @@
 * linux-armel (gcc-4.9)   
 * linux-armhf (gcc-4.9)   
 * linux-aarch64 (gcc-4.9)   
-* android-armeabi-v7a (ndk-r12b/api-21)   
-* android-arm64-v8a (ndk-r12b/api-21)   
-* android-x86 (ndk-r12b/api-21)   
+* android-17-armeabi-v7a (ndk-r12b/api-17)   
+* android-21-armeabi-v7a (ndk-r12b/api-21)   
+* android-21-arm64-v8a (ndk-r12b/api-21)   
+* android-17-x86 (ndk-r12b/api-17)   
+* android-21-x86 (ndk-r12b/api-21)   
 * rasbpian-armhf (gcc-4.8.3)   
    
 **BUILD ENVIRONMENT**  
@@ -31,9 +33,11 @@ Open "Bash on Ubuntu on Windows"
 ```
 wget https://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip
 7z x android-ndk-r12b-linux-x86_64.zip
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl gnustl --install-dir ./arm-linux-androideabi
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm64 --api 21 --stl gnustl --install-dir ./aarch64-linux-android
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch x86 --api 21 --stl gnustl --install-dir ./i686-linux-android
+android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm --api 17 --stl gnustl --install-dir ./arm-linux-androideabi-17
+android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch x86 --api 17 --stl gnustl --install-dir ./i686-linux-android-17
+android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl gnustl --install-dir ./arm-linux-androideabi-21
+android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm64 --api 21 --stl gnustl --install-dir ./aarch64-linux-android-21
+android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch x86 --api 21 --stl gnustl --install-dir ./i686-linux-android-21
 ```
   
 **BUILD LIBUUID (linux-i686)**   
@@ -128,13 +132,13 @@ make
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
-**BUILD LIBUUID (android-armeabi-v7a)**   
+**BUILD LIBUUID (android-17-armeabi-v7a)**   
 Open "Bash on Ubuntu on Windows"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
 export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/arm-linux-androideabi/bin:$PATH
+export PATH=$(pwd)/arm-linux-androideabi-17/bin:$PATH
 export CROSS_COMPILE=arm-linux-androideabi-
 cd libuuid-1.0.3
 ./configure --with-pic --host=arm-linux-androideabi --disable-shared --enable-static
@@ -145,13 +149,30 @@ make
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
-**BUILD LIBUUID (android-arm64-v8a)**   
+**BUILD LIBUUID (android-21-armeabi-v7a)**   
 Open "Bash on Ubuntu on Windows"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
 export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/aarch64-linux-android/bin:$PATH
+export PATH=$(pwd)/arm-linux-androideabi-21/bin:$PATH
+export CROSS_COMPILE=arm-linux-androideabi-
+cd libuuid-1.0.3
+./configure --with-pic --host=arm-linux-androideabi --disable-shared --enable-static
+autoreconf -i -f
+make
+```
+   
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (android-21-arm64-v8a)**   
+Open "Bash on Ubuntu on Windows"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
+export PATH=$(pwd)/aarch64-linux-android-21/bin:$PATH
 export CROSS_COMPILE=aarch64-linux-android-
 cd libuuid-1.0.3
 ./configure --with-pic --host=aarch64-linux-android --disable-shared --enable-static
@@ -162,13 +183,30 @@ make
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
-**BUILD LIBUUID (android-x86)**   
+**BUILD LIBUUID (android-17-x86)**   
 Open "Bash on Ubuntu on Windows"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
 export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/i686-linux-android/bin:$PATH
+export PATH=$(pwd)/i686-linux-android-17/bin:$PATH
+export CROSS_COMPILE=i686-linux-android-
+cd libuuid-1.0.3
+./configure --with-pic --host=i686-linux-android --disable-shared --enable-static
+autoreconf -i -f
+make
+```
+   
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (android-21-x86)**   
+Open "Bash on Ubuntu on Windows"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
+export PATH=$(pwd)/i686-linux-android-21/bin:$PATH
 export CROSS_COMPILE=i686-linux-android-
 cd libuuid-1.0.3
 ./configure --with-pic --host=i686-linux-android --disable-shared --enable-static
