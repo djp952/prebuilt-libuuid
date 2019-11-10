@@ -7,19 +7,23 @@
 * linux-armel (gcc-4.9)   
 * linux-armhf (gcc-4.9)   
 * linux-aarch64 (gcc-4.9)   
-* android-17-armeabi-v7a (ndk-r12b/api-17)   
-* android-21-armeabi-v7a (ndk-r12b/api-21)   
-* android-21-arm64-v8a (ndk-r12b/api-21)   
-* android-17-x86 (ndk-r12b/api-17)   
-* android-21-x86 (ndk-r12b/api-21)   
+* android-21-armeabi-v7a (ndk-r20b/api-21)   
+* android-21-arm64-v8a (ndk-r20b/api-21)   
+* android-21-x86 (ndk-r20b/api-21)   
+* android-28-armeabi-v7a (ndk-r20b/api-21)   
+* android-28-arm64-v8a (ndk-r20b/api-21)   
+* android-28-x86 (ndk-r20b/api-21)   
 * rasbpian-armhf (gcc-4.8.3)   
-   
-**BUILD ENVIRONMENT**  
-* Windows 10 x64 15063   
-* Bash on Ubuntu on Windows 16.04.1 LTS   
+* osx-x86_64 (apple-darwin15)   
 
+**BUILD ENVIRONMENT**  
+* Windows 10 x64 1809 (17763) "October 2018 Update"   
+* Windows Subsystem for Linux   
+* [Ubuntu on Windows 16.04 LTS](https://www.microsoft.com/store/productId/9PJN388HP8C9)   
+* OSXCROSS Cross-Compiler (with Mac OSX 10.11 SDK)   
+   
 **CONFIGURE BASH ON UBUNTU ON WINDOWS**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 sudo dpkg --add-architecture i386
 sudo apt-get update
@@ -27,21 +31,27 @@ sudo apt-get install gcc-4.9 g++-4.9 libc6-dev:i386 libstdc++-4.9-dev:i386 lib32
 sudo apt-get install gcc-4.9-arm-linux-gnueabihf g++-4.9-arm-linux-gnueabihf gcc-4.9-arm-linux-gnueabi g++-4.9-arm-linux-gnueabi gcc-4.9-aarch64-linux-gnu g++-4.9-aarch64-linux-gnu
 sudo apt-get install autoconf libtool make p7zip-full python
 ```
-
+   
 **CONFIGURE ANDROID TOOLCHAINS**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
-wget https://dl.google.com/android/repository/android-ndk-r12b-linux-x86_64.zip
-7z x android-ndk-r12b-linux-x86_64.zip
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm --api 17 --stl gnustl --install-dir ./arm-linux-androideabi-17
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch x86 --api 17 --stl gnustl --install-dir ./i686-linux-android-17
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm --api 21 --stl gnustl --install-dir ./arm-linux-androideabi-21
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch arm64 --api 21 --stl gnustl --install-dir ./aarch64-linux-android-21
-android-ndk-r12b/build/tools/make_standalone_toolchain.py --arch x86 --api 21 --stl gnustl --install-dir ./i686-linux-android-21
+wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip
+7z x android-ndk-r20b-linux-x86_64.zip
 ```
   
+**CONFIGURE OSXCROSS CROSS-COMPILER**   
+* Generate the MAC OSX 10.11 SDK Package for OSXCROSS by following the instructions provided at [PACKAGING THE SDK](https://github.com/tpoechtrager/osxcross#packaging-the-sdk).  The suggested version of Xcode to use when generating the SDK package is Xcode 7.3.1 (May 3, 2016).
+* Open "Ubuntu"   
+```
+sudo apt-get install make clang zlib1g-dev libmpc-dev libmpfr-dev libgmp-dev
+git clone https://github.com/tpoechtrager/osxcross --depth=1
+cp {MacOSX10.11.sdk.tar.bz2} osxcross/tarballs/
+UNATTENDED=1 osxcross/build.sh
+GCC_VERSION=4.9.3 osxcross/build_gcc.sh
+```
+   
 **BUILD LIBUUID (linux-i686)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
@@ -55,12 +65,11 @@ automake --add-missing
 autoreconf -i -f
 make
 ```
-  
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (linux-x86_64)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
@@ -74,12 +83,11 @@ automake --add-missing
 autoreconf -i -f
 make
 ```
-  
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (linux-armel)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
@@ -92,9 +100,11 @@ cd libuuid-1.0.3
 autoreconf -i -f
 make
 ```
-     
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
 **BUILD LIBUUID (linux-armhf)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
@@ -106,16 +116,12 @@ cd libuuid-1.0.3
 ./configure --with-pic --host=arm-linux-gnueabihf --disable-shared --enable-static
 autoreconf -i -f
 make
-```
-     
-Get uuid.h from libuuid-1.0.3   
-Get libuuid.a from libuuid-1.0.3/.libs   
-   
+``` 
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (linux-aarch64)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
@@ -128,97 +134,137 @@ cd libuuid-1.0.3
 autoreconf -i -f
 make
 ```
-     
-Get uuid.h from libuuid-1.0.3   
-Get libuuid.a from libuuid-1.0.3/.libs   
-   
-**BUILD LIBUUID (android-17-armeabi-v7a)**   
-Open "Bash on Ubuntu on Windows"   
-```
-wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
-tar -xvf libuuid-1.0.3.tar.gz
-export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/arm-linux-androideabi-17/bin:$PATH
-export CROSS_COMPILE=arm-linux-androideabi-
-cd libuuid-1.0.3
-./configure --with-pic --host=arm-linux-androideabi --disable-shared --enable-static
-autoreconf -i -f
-make
-```
-   
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (android-21-armeabi-v7a)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
-export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/arm-linux-androideabi-21/bin:$PATH
-export CROSS_COMPILE=arm-linux-androideabi-
+export TOOLCHAIN=$(pwd)/android-ndk-r20b/toolchains/llvm/prebuilt/linux-x86_64
+export AR=$TOOLCHAIN/bin/arm-linux-androideabi-ar
+export AS=$TOOLCHAIN/bin/arm-linux-androideabi-as
+export CC=$TOOLCHAIN/bin/armv7a-linux-androideabi21-clang
+export CXX=$TOOLCHAIN/bin/armv7a-linux-androideabi21-clang++
+export LD=$TOOLCHAIN/bin/arm-linux-androideabi-ld
+export RANLIB=$TOOLCHAIN/bin/arm-linux-androideabi-ranlib
+export STRIP=$TOOLCHAIN/bin/arm-linux-androideabi-strip
 cd libuuid-1.0.3
 ./configure --with-pic --host=arm-linux-androideabi --disable-shared --enable-static
 autoreconf -i -f
 make
 ```
-   
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (android-21-arm64-v8a)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
-export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/aarch64-linux-android-21/bin:$PATH
-export CROSS_COMPILE=aarch64-linux-android-
+export TOOLCHAIN=$(pwd)/android-ndk-r20b/toolchains/llvm/prebuilt/linux-x86_64
+export AR=$TOOLCHAIN/bin/aarch64-linux-android-ar
+export AS=$TOOLCHAIN/bin/aarch64-linux-android-as
+export CC=$TOOLCHAIN/bin/aarch64-linux-android21-clang
+export CXX=$TOOLCHAIN/bin/aarch64-linux-android21-clang++
+export LD=$TOOLCHAIN/bin/aarch64-linux-android-ld
+export RANLIB=$TOOLCHAIN/bin/aarch64-linux-android-ranlib
+export STRIP=$TOOLCHAIN/bin/aarch64-linux-android-strip
 cd libuuid-1.0.3
 ./configure --with-pic --host=aarch64-linux-android --disable-shared --enable-static
 autoreconf -i -f
 make
 ```
-   
-Get uuid.h from libuuid-1.0.3   
-Get libuuid.a from libuuid-1.0.3/.libs   
-   
-**BUILD LIBUUID (android-17-x86)**   
-Open "Bash on Ubuntu on Windows"   
-```
-wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
-tar -xvf libuuid-1.0.3.tar.gz
-export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/i686-linux-android-17/bin:$PATH
-export CROSS_COMPILE=i686-linux-android-
-cd libuuid-1.0.3
-./configure --with-pic --host=i686-linux-android --disable-shared --enable-static
-autoreconf -i -f
-make
-```
-   
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (android-21-x86)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
-export ANDROID_NDK_ROOT=$(pwd)/android-ndk-r12b
-export PATH=$(pwd)/i686-linux-android-21/bin:$PATH
-export CROSS_COMPILE=i686-linux-android-
+export TOOLCHAIN=$(pwd)/android-ndk-r20b/toolchains/llvm/prebuilt/linux-x86_64
+export AR=$TOOLCHAIN/bin/i686-linux-android-ar
+export AS=$TOOLCHAIN/bin/i686-linux-android-as
+export CC=$TOOLCHAIN/bin/i686-linux-android21-clang
+export CXX=$TOOLCHAIN/bin/i686-linux-android21-clang++
+export LD=$TOOLCHAIN/bin/i686-linux-android-ld
+export RANLIB=$TOOLCHAIN/bin/i686-linux-android-ranlib
+export STRIP=$TOOLCHAIN/bin/i686-linux-android-strip
 cd libuuid-1.0.3
 ./configure --with-pic --host=i686-linux-android --disable-shared --enable-static
 autoreconf -i -f
 make
 ```
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
    
+**BUILD LIBUUID (android-28-armeabi-v7a)**   
+Open "Ubuntu"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export TOOLCHAIN=$(pwd)/android-ndk-r20b/toolchains/llvm/prebuilt/linux-x86_64
+export AR=$TOOLCHAIN/bin/arm-linux-androideabi-ar
+export AS=$TOOLCHAIN/bin/arm-linux-androideabi-as
+export CC=$TOOLCHAIN/bin/armv7a-linux-androideabi28-clang
+export CXX=$TOOLCHAIN/bin/armv7a-linux-androideabi28-clang++
+export LD=$TOOLCHAIN/bin/arm-linux-androideabi-ld
+export RANLIB=$TOOLCHAIN/bin/arm-linux-androideabi-ranlib
+export STRIP=$TOOLCHAIN/bin/arm-linux-androideabi-strip
+cd libuuid-1.0.3
+./configure --with-pic --host=arm-linux-androideabi --disable-shared --enable-static
+autoreconf -i -f
+make
+```
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (android-28-arm64-v8a)**   
+Open "Ubuntu"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export TOOLCHAIN=$(pwd)/android-ndk-r20b/toolchains/llvm/prebuilt/linux-x86_64
+export AR=$TOOLCHAIN/bin/aarch64-linux-android-ar
+export AS=$TOOLCHAIN/bin/aarch64-linux-android-as
+export CC=$TOOLCHAIN/bin/aarch64-linux-android28-clang
+export CXX=$TOOLCHAIN/bin/aarch64-linux-android28-clang++
+export LD=$TOOLCHAIN/bin/aarch64-linux-android-ld
+export RANLIB=$TOOLCHAIN/bin/aarch64-linux-android-ranlib
+export STRIP=$TOOLCHAIN/bin/aarch64-linux-android-strip
+cd libuuid-1.0.3
+./configure --with-pic --host=aarch64-linux-android --disable-shared --enable-static
+autoreconf -i -f
+make
+```
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (android-28-x86)**   
+Open "Ubuntu"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export TOOLCHAIN=$(pwd)/android-ndk-r20b/toolchains/llvm/prebuilt/linux-x86_64
+export AR=$TOOLCHAIN/bin/i686-linux-android-ar
+export AS=$TOOLCHAIN/bin/i686-linux-android-as
+export CC=$TOOLCHAIN/bin/i686-linux-android28-clang
+export CXX=$TOOLCHAIN/bin/i686-linux-android28-clang++
+export LD=$TOOLCHAIN/bin/i686-linux-android-ld
+export RANLIB=$TOOLCHAIN/bin/i686-linux-android-ranlib
+export STRIP=$TOOLCHAIN/bin/i686-linux-android-strip
+cd libuuid-1.0.3
+./configure --with-pic --host=i686-linux-android --disable-shared --enable-static
+autoreconf -i -f
+make
+``` 
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
    
 **BUILD LIBUUID (raspbian-armhf)**   
-Open "Bash on Ubuntu on Windows"   
+Open "Ubuntu"   
 ```
 git clone https://github.com/raspberrypi/tools.git raspberrypi --depth=1
 wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
@@ -232,7 +278,27 @@ cd libuuid-1.0.3
 ./configure --with-pic --host=arm-linux-gnueabihf --disable-shared --enable-static
 autoreconf -i -f
 make
-```
-   
+``` 
 Get uuid.h from libuuid-1.0.3   
 Get libuuid.a from libuuid-1.0.3/.libs   
+   
+**BUILD LIBUUID (osx-x86_64)**   
+Open "Ubuntu"   
+```
+wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
+tar -xvf libuuid-1.0.3.tar.gz
+export PATH=$(pwd)/osxcross/target/bin:$PATH
+export CROSS_COMPILE=x86_64-apple-darwin15-
+export CFLAGS="-mmacosx-version-min=10.7 -stdlib=libc++"
+cd libuuid-1.0.3
+./configure --with-pic --host=x86_64-apple-darwin15 --disable-shared --enable-static
+autoreconf -i -f
+OSXCROSS_NO_EXTENSION_WARNINGS=1 make
+```
+Get uuid.h from libuuid-1.0.3   
+Get libuuid.a from libuuid-1.0.3/.libs   
+   
+## ADDITIONAL LICENSE INFORMATION
+   
+**XCODE AND APPLE SDKS AGREEMENT**   
+The instructions provided above indirectly reference the use of intellectual material that is the property of Apple, Inc.  This intellectual material is not FOSS (Free and Open Source Software) and by using it you agree to be bound by the terms and conditions set forth by Apple, Inc. in the [Xcode and Apple SDKs Agreement](https://www.apple.com/legal/sla/docs/xcode.pdf).
