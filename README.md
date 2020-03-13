@@ -17,7 +17,7 @@
 * osx-x86_64 (apple-darwin15)   
 
 **BUILD ENVIRONMENT**  
-* Windows 10 x64 1809 (17763) "October 2018 Update"   
+* Windows 10 x64 1909 (18363) "November 2019 Update"   
 * Windows Subsystem for Linux   
 * [Ubuntu on Windows 16.04 LTS](https://www.microsoft.com/store/productId/9PJN388HP8C9)   
 * OSXCROSS Cross-Compiler (with Mac OSX 10.11 SDK)   
@@ -43,11 +43,10 @@ wget https://dl.google.com/android/repository/android-ndk-r20b-linux-x86_64.zip
 * Generate the MAC OSX 10.11 SDK Package for OSXCROSS by following the instructions provided at [PACKAGING THE SDK](https://github.com/tpoechtrager/osxcross#packaging-the-sdk).  The suggested version of Xcode to use when generating the SDK package is Xcode 7.3.1 (May 3, 2016).
 * Open "Ubuntu"   
 ```
-sudo apt-get install make clang zlib1g-dev libmpc-dev libmpfr-dev libgmp-dev
+sudo apt-get install cmake clang llvm-dev libxml2-dev uuid-dev libssl-dev libbz2-dev zlib1g-dev
 git clone https://github.com/tpoechtrager/osxcross --depth=1
 cp {MacOSX10.11.sdk.tar.bz2} osxcross/tarballs/
 UNATTENDED=1 osxcross/build.sh
-GCC_VERSION=4.9.3 osxcross/build_gcc.sh
 ```
    
 **BUILD LIBUUID (linux-i686)**   
@@ -289,6 +288,9 @@ wget https://sourceforge.net/projects/libuuid/files/libuuid-1.0.3.tar.gz
 tar -xvf libuuid-1.0.3.tar.gz
 export PATH=$(pwd)/osxcross/target/bin:$PATH
 export CROSS_COMPILE=x86_64-apple-darwin15-
+export CC=x86_64-apple-darwin15-clang
+export AR=x86_64-apple-darwin15-ar
+export RANLIB=x86_64-apple-darwin15-ranlib
 export CFLAGS="-mmacosx-version-min=10.7 -stdlib=libc++"
 cd libuuid-1.0.3
 ./configure --with-pic --host=x86_64-apple-darwin15 --disable-shared --enable-static
